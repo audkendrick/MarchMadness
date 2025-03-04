@@ -1,54 +1,55 @@
 import "./App.css";
+import marchMadnessData from "./CollegeBasketballTeams.json";
 
-const bandnames = [
-  {
-    name: "Dire Straits",
-    members: "Mark Knopfler, David Knopfer, John Illsbley, Rick",
-    formed: 1977,
-  },
-  { name: "R.E.M", members: "Michael, Pter, Mike, Bill", formed: 1999 },
-  {
-    name: "Collective Soul",
-    members: "Ed, Ian, David, Ross, Shawn",
-    formed: 1996,
-  },
-  {
-    name: "Traffic",
-    members: "Steve Winwood, Jim Capaldi Chris Wood, Dave Mason",
-    formed: 1967,
-  },
-];
-
-function Welcome() {
-  return <h1>Criminally Underrated Bands</h1>;
+// Define a Team interface to represent the structure of each team object
+interface Team {
+  tid: number;
+  cid: number;
+  did: number;
+  school: string;
+  name: string;
+  abbrev: string;
+  pop: number;
+  city: string;
+  state: string;
+  latitude: number;
+  longitude: number;
+}
+// Define props for the TeamCard component
+interface TeamCardProps {
+  team: Team;
 }
 
-function Band({
-  name,
-  members,
-  formed,
-}: {
-  name: string;
-  members: string;
-  formed: number;
-}) {
+function Welcome() {
   return (
-    <>
-      <img></img>
-      <h2>{name}</h2>
-      <h3>Original Members {members}</h3>
-      <h3>Formed: {formed}</h3>
-    </>
+    <h1>
+      It's time for MARCH MADNESS! Come take a look at your favorite NCAA teams
+      and let's see who will win!
+    </h1>
   );
 }
 
-function BandList() {
+function TeamCard({ team }: TeamCardProps) {
   return (
-    <>
-      {bandnames.map((singleBand) => (
-        <Band {...singleBand} />
+    <div className="team-card">
+      <h2>{team.school}</h2>
+      <p>
+        <strong>Mascot:</strong> {team.name}
+      </p>
+      <p>
+        <strong>Location:</strong> {team.city}, {team.state}
+      </p>
+    </div>
+  );
+}
+
+function TeamList() {
+  return (
+    <div className="team-grid">
+      {marchMadnessData.teams.map((team) => (
+        <TeamCard key={team.tid} team={team} />
       ))}
-    </>
+    </div>
   );
 }
 
@@ -56,7 +57,7 @@ function App() {
   return (
     <>
       <Welcome />
-      <BandList />
+      <TeamList />
     </>
   );
 }
